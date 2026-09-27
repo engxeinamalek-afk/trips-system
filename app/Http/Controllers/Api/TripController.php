@@ -1,0 +1,69 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreTripRequest;
+use App\Http\Requests\UpdateStatusRequest;
+use App\Models\Trip;
+use Illuminate\Http\Request;
+use App\Services\Contracts\TripServiceInterface;
+
+class TripController extends Controller
+{
+    public function __construct(protected TripServiceInterface $service){}
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreTripRequest $request)
+    {
+        $data= $request->validated();
+        $data['is_active']= true;
+        $trip= $this->service->createTrip($data);
+        return response()->json([
+            'message' => 'Trip created successfully!',
+            'data'    => $trip
+        ], 201);
+    }
+    public function updateStatus(UpdateStatusRequest $request, Trip $trip){
+        $data= $request->validated();
+        $trip->update(['is_active' => $data['is_active']]);
+        return response()->json([
+            'message' => 'Trip updated successfully!',
+            'data'    => $trip
+        ], 200);        
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
+    }
+}
