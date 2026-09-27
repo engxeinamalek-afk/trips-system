@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Trip extends Model
 {
@@ -13,4 +14,8 @@ class Trip extends Model
                         'discount_id',
                         'total_seats',
                         'departure_time'];
+    
+    public function discount():BelongsTo{
+        return $this->belongsTo(Discount::class);
+    }
 }
