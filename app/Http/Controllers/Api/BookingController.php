@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBookingRequest;
-use App\Services\BookingService;
+use App\Services\Contracts\BookingServiceInterface;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {
-    public function __construct(private BookingService $service){}
+    public function __construct(private BookingServiceInterface $service){}
     /**
      * Display a listing of the resource.
      */
