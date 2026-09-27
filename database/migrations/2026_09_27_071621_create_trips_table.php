@@ -27,8 +27,6 @@ return new class extends Migration
             $table->timestamps();
         });
         DB::statement('ALTER TABLE trips ADD CONSTRAINT chk_different_cities CHECK (departure_city_id <> destination_city_id)');
-        DB::statement('ALTER TABLE trips ADD CONSTRAINT chk_trip_date_future CHECK (departure_date > CURRENT_TIMESTAMP)');
-
     }
 
     /**
