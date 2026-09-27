@@ -42,7 +42,7 @@ class DiscountController extends Controller
         return response()->json([
             'message' => 'Discount updated successfully!',
             'data'    => $discount
-        ]); 
+        ], 200); 
         
     }
 
@@ -52,7 +52,7 @@ class DiscountController extends Controller
         return response()->json([
             'message' => 'Discount updated successfully!',
             'data'    => $discount
-        ]);        
+        ], 200);        
     }
 
     /**
