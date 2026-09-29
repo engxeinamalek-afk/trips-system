@@ -20,6 +20,12 @@ class TripController extends ApiBaseController
     {
         //
     }
+    public function remainingSeatsCount(Trip $trip){
+        $seatsCount= $this->service->getRemainingSeatsCount($trip);
+        return $this->success(["Remaining Seats" => $seatsCount],
+                                "Available seats retrieved successfully.");
+        
+    }
 
     /**
      * Store a newly created resource in storage.

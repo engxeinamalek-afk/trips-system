@@ -9,6 +9,7 @@ use App\Services\Contracts\TripServiceInterface;
 use Illuminate\Support\Facades\DB;
 use App\Models\Ticket;
 use App\Enums\BookingStatus;
+use App\Models\Booking;
 class TripService implements TripServiceInterface{
     public function createTrip(array $data): Trip
     {
@@ -54,6 +55,12 @@ class TripService implements TripServiceInterface{
                 ]);
             }
         });
+    }
+
+    public function getRemainingSeatsCount(Trip $trip){
+        $reservedSeats = Booking::where('trip_id', $trip->id)->sum('seats_count');
+
+        return $trip->total_seats - $reservedSeats;
     }
 
 }
