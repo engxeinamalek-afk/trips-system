@@ -1,59 +1,76 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+## Features
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+-  **City Management** — Create and manage departure and destination cities.
+-  **Trip Management** — Create, activate/deactivate trips with pricing, seats, and discounts, Check available seats.
+-  **Discounts** — Create discounts with separate rates for normal and VIP bookings.
+-  **Bookings** — Create, reject, and track bookings with automatic price calculation.
+-  **Tickets** — Issue tickets and assign seats to bookings.
+-  **Automatic Status Management** — Automatically update bookings and tickets based on trip actions.
 
-## About Laravel
+## End Points
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- `POST /api/store-booking`
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+```{departure_city_id": 1,
+    "destination_city_id": 2,
+    "departure_time": "2026-10-15 10:00:00",
+    "total_seats": 40,
+    "price": 100,
+    "discount_id": 1}
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- `POST /api/rejected-booking/{booking}`
+body:none
 
-## Learning Laravel
+- `POST /api/store-trip`
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+```{
+    "departure_city_id": 1,
+    "destination_city_id": 2,
+    "departure_time": "2026-10-15 10:00:00",
+    "total_seats": 40,
+    "price": 100,
+    "discount_id": 1
+}
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- `POST /api/deactivate-trip/{trip}`
 
-## Laravel Sponsors
+```{"is_active": false}```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- `GET /api/remaining-seats/{trip}`
+body:none
 
-### Premium Partners
+- `POST /api/store-city`
+```{"name": "Lattakia"}```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+- `POST /api/update-city-status/{city}`
+```{"is_active": false}```
 
-## Contributing
+- `POST /api/store-discount`
+```{
+    "name": "Summer Discount",
+    "regular_percentage": 10,
+    "vip_percentage": 20
+}
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- `POST /api/update-discount-status/{discount}`
+```{"is_active": false}```
 
-## Code of Conduct
+- `POST /api/store-ticket`
+```{
+    "booking_id": 1,
+    "customer_name": "Ahmad Ali",
+    "seat_number": 15
+}
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Price Strategy
+The project uses the `Strategy Pattern` to calculate `booking prices` based on the `booking type` (normal or vip).
 
-## Security Vulnerabilities
+## Dependency Injection
+The project uses Laravel's Service Container to `bind` service `interfaces` to their implementations.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Error Handling
+API exceptions are handled in bootstrap/app.php using Laravel's withExceptions, with custom exception classes for specific errors and consistent JSON responses.
