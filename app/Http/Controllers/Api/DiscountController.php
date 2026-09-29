@@ -50,20 +50,4 @@ class DiscountController extends ApiBaseController
                             'Discount updated successfully!');       
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

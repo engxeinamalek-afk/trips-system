@@ -9,13 +9,6 @@ use Illuminate\Http\Request;
 class TicketsController extends ApiBaseController
 {
     public function __construct(private TicketServiceInterface $service ){}
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -30,29 +23,5 @@ class TicketsController extends ApiBaseController
                                 'booking_status'  => $result['booking_status'],
                                 'remaining_seats' => $result['remaining_seats'] ],
                                 $message, 201);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }

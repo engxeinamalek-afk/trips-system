@@ -12,14 +12,6 @@ use App\Services\Contracts\TripServiceInterface;
 class TripController extends ApiBaseController
 {
     public function __construct(protected TripServiceInterface $service){}
-
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
     public function remainingSeatsCount(Trip $trip){
         $seatsCount= $this->service->getRemainingSeatsCount($trip);
         return $this->success(["Remaining Seats" => $seatsCount],
@@ -45,27 +37,4 @@ class TripController extends ApiBaseController
                               'Trip updated successfully!');      
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

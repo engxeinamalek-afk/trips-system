@@ -11,13 +11,6 @@ use Illuminate\Http\Request;
 class BookingController extends ApiBaseController
 {
     public function __construct(private BookingServiceInterface $service){}
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -34,14 +27,6 @@ class BookingController extends ApiBaseController
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function updateStatus(Booking $booking)
@@ -51,11 +36,4 @@ class BookingController extends ApiBaseController
                                 "Booking updated successfully!");
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }
