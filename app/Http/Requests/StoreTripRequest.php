@@ -43,7 +43,7 @@ class StoreTripRequest extends FormRequest
 
             'price' => ['required',
                         'integer',
-                        'min:0'],
+                        'min:1'],
 
             'discount_id' => ['nullable',
                             'integer',
