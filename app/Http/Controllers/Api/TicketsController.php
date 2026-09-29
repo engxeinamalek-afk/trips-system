@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTicketRequest;
-use App\Services\TicketService;
+use App\Services\Contracts\TicketServiceInterface;
 use Illuminate\Http\Request;
 
 class TicketsController extends ApiBaseController
 {
-    public function __construct(private TicketService $service ){}
+    public function __construct(private TicketServiceInterface $service ){}
     /**
      * Display a listing of the resource.
      */
