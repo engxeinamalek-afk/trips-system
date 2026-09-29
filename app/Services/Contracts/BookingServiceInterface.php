@@ -5,4 +5,6 @@ use App\Models\Booking;
 
 interface BookingServiceInterface{
     public function createBooking(array $data):Booking;
+    public function updateBookingStatus(Booking $booking);
+
 }

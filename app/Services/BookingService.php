@@ -51,4 +51,12 @@ class BookingService implements BookingServiceInterface
             throw new InsufficientSeatsException("Requested seats exceed available capacity. Only {$availableSeats} seats remaining for this trip");
         }
     }
+
+    public function updateBookingStatus(Booking $booking){
+        DB::transaction(function () use ($booking) {
+            $booking->update(['status' => BookingStatus::REJECTED->value]);
+
+            $booking->tickets()->delete();
+        });
+    }
 }

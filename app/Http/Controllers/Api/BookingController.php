@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBookingRequest;
+use App\Models\Booking;
 use App\Services\Contracts\BookingServiceInterface;
 use Illuminate\Http\Request;
 
@@ -43,9 +44,11 @@ class BookingController extends ApiBaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function updateStatus(Booking $booking)
     {
-        //
+        $this->service->updateBookingStatus($booking);
+        return $this->success($booking , 
+                                "Booking updated successfully!");
     }
 
     /**
