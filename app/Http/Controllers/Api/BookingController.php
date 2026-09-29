@@ -7,7 +7,7 @@ use App\Http\Requests\StoreBookingRequest;
 use App\Services\Contracts\BookingServiceInterface;
 use Illuminate\Http\Request;
 
-class BookingController extends Controller
+class BookingController extends ApiBaseController
 {
     public function __construct(private BookingServiceInterface $service){}
     /**
@@ -27,11 +27,9 @@ class BookingController extends Controller
         
         $booking= $this->service->createBooking($data);
 
-        return response()->json([
-            'message' => "Booking created successfully!",
-            'data' => $booking
-        ], 201);
-
+        return $this->success($booking,
+                        "Booking created successfully!",
+                        201);
     }
 
     /**

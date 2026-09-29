@@ -8,7 +8,7 @@ use App\Http\Requests\StoreCityRequest;
 use App\Models\City;
 use App\Http\Requests\UpdateStatusRequest;
 
-class CityController extends Controller
+class CityController extends ApiBaseController
 {
     /**
      * Display a listing of the resource.
@@ -26,19 +26,16 @@ class CityController extends Controller
         $validatedData= $request->validated();
         $city= City::create(['name' => $validatedData['name'],
                             'is_active' => true]);
-        return response()->json([
-            'message' => 'City created successfully!',
-            'data'    => $city
-        ], 201);
+        return $this->success($city,
+                            'City created successfully!',
+                            201 );
     }
 
     public function updateStatus(UpdateStatusRequest $request, City $city)
     {
         $city->update($request->validated());
-        return response()->json([
-            'message' => 'City updated successfully!',
-            'data'    => $city
-        ], 200); 
+        return $this->success($city,
+                              'City updated successfully!');
     }
 
     /**

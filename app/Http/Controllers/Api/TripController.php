@@ -9,7 +9,7 @@ use App\Models\Trip;
 use Illuminate\Http\Request;
 use App\Services\Contracts\TripServiceInterface;
 
-class TripController extends Controller
+class TripController extends ApiBaseController
 {
     public function __construct(protected TripServiceInterface $service){}
 
@@ -29,18 +29,15 @@ class TripController extends Controller
         $data= $request->validated();
         $data['is_active']= true;
         $trip= $this->service->createTrip($data);
-        return response()->json([
-            'message' => 'Trip created successfully!',
-            'data'    => $trip
-        ], 201);
+        return $this->success($trip,
+                               'Trip created successfully!',
+                               201);
     }
     public function updateStatus(UpdateStatusRequest $request, Trip $trip){
         $data= $request->validated();
         $trip->update(['is_active' => $data['is_active']]);
-        return response()->json([
-            'message' => 'Trip updated successfully!',
-            'data'    => $trip
-        ], 200);        
+        return $this->success($trip,
+                              'Trip updated successfully!');      
     }
 
     /**

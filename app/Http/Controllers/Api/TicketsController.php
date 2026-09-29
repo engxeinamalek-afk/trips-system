@@ -7,7 +7,7 @@ use App\Http\Requests\StoreTicketRequest;
 use App\Services\TicketService;
 use Illuminate\Http\Request;
 
-class TicketsController extends Controller
+class TicketsController extends ApiBaseController
 {
     public function __construct(private TicketService $service ){}
     /**
@@ -24,17 +24,13 @@ class TicketsController extends Controller
     public function store(StoreTicketRequest $request)
     {
         $result = $this->service->createTicket($request->validated());
-
-        return response()->json([
-            'message' => $result['booking_status'] === 'completed'
-                ? 'Ticket created successfully. Booking is now completed!'
-                : 'Ticket created successfully.',
-            'data' => [
-                'ticket'          => $result['ticket'],
-                'booking_status'  => $result['booking_status'],
-                'remaining_seats' => $result['remaining_seats'],
-            ]
-        ], 201);
+        $message= $result['booking_status'] === 'completed'
+                    ? 'Ticket created successfully. Booking is now completed!'
+                    : 'Ticket created successfully.' ;
+        return $this->success( ['ticket' => $result['ticket'],
+                                'booking_status'  => $result['booking_status'],
+                                'remaining_seats' => $result['remaining_seats'] ],
+                                $message, 201);
     }
 
     /**

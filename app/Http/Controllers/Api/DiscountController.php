@@ -7,7 +7,7 @@ use App\Http\Requests\StoreDiscountRequest;
 Use App\Http\Requests\UpdateDiscountRequest;
 use App\Http\Requests\UpdateStatusRequest;
 use App\Models\Discount;
-class DiscountController extends Controller
+class DiscountController extends ApiBaseController
 {
     /**
      * Display a listing of the resource.
@@ -27,10 +27,9 @@ class DiscountController extends Controller
                                   'regular_percentage' => $validatedData['regular_percentage'],
                                   'vip_percentage' => $validatedData['vip_percentage'],
                                   'is_active' => true]);
-        return response()->json([
-            'message' => 'Discount created successfully!',
-            'data'    => $discount
-        ], 201);
+        return $this->success($discount,
+                            'Discount created successfully!',
+                            201);
     }
 
     /**
@@ -39,20 +38,16 @@ class DiscountController extends Controller
     public function update(UpdateDiscountRequest $request, Discount $discount)
     {
         $discount->update($request->validated());
-        return response()->json([
-            'message' => 'Discount updated successfully!',
-            'data'    => $discount
-        ], 200); 
+        return $this->success($discount,
+                            'Discount updated successfully!');
         
     }
 
     public function updateStatus(UpdateStatusRequest $request, Discount $discount){
         $data= $request->validated();
         $discount->update(['is_active' => $data['is_active']]);
-        return response()->json([
-            'message' => 'Discount updated successfully!',
-            'data'    => $discount
-        ], 200);        
+        return $this->success($discount,
+                            'Discount updated successfully!');       
     }
 
     /**
