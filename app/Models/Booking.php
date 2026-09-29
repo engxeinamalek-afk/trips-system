@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use App\Enums\BookingStatus;
 use App\Enums\BookingType;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Booking extends Model
 {
@@ -28,5 +30,11 @@ class Booking extends Model
             'status' => BookingStatus::class,
             'type' => BookingType::class
         ];
+    }
+    public function tickets(): HasMany{
+        return $this->hasMany(Ticket::class);
+    }
+    public function trip():BelongsTo{
+        return $this->belongsTo(Trip::class);
     }
 }
