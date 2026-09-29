@@ -33,9 +33,8 @@ class TripController extends ApiBaseController
                                'Trip created successfully!',
                                201);
     }
-    public function updateStatus(UpdateStatusRequest $request, Trip $trip){
-        $data= $request->validated();
-        $trip->update(['is_active' => $data['is_active']]);
+    public function updateStatus(Trip $trip){
+        $this->service->deactivateTrip($trip);
         return $this->success($trip,
                               'Trip updated successfully!');      
     }

@@ -23,4 +23,8 @@ class Trip extends Model
     public function tickets(): HasMany{
         return $this->hasMany(Ticket::class);
     }
+
+    public function bookings():HasMany{
+        return $this->hasMany(Booking::class);
+    }
 }

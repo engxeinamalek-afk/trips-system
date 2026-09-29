@@ -6,7 +6,9 @@ use App\Models\Discount;
 use App\Models\Trip;
 use App\Exceptions\InactiveEntityException;
 use App\Services\Contracts\TripServiceInterface;
-
+use Illuminate\Support\Facades\DB;
+use App\Models\Ticket;
+use App\Enums\BookingStatus;
 class TripService implements TripServiceInterface{
     public function createTrip(array $data): Trip
     {
@@ -36,4 +38,22 @@ class TripService implements TripServiceInterface{
             throw new InactiveEntityException('The selected discount is inactive.');
         }
     }
+
+    public function deactivateTrip(Trip $trip): void
+    {
+        DB::transaction(function () use ($trip) {
+            $trip->update(['is_active' => false]);
+
+            $bookingIds = $trip->bookings()->pluck('id');
+
+            if ($bookingIds->isNotEmpty()) {
+                Ticket::whereIn('booking_id', $bookingIds)->delete();
+
+                $trip->bookings()->update([
+                    'status' => BookingStatus::CANCELLED->value,
+                ]);
+            }
+        });
+    }
+
 }
