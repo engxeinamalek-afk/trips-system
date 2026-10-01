@@ -10,7 +10,7 @@ use App\Models\Trip;
 use App\Services\Contracts\BookingServiceInterface;
 use App\Services\Price\BookingPriceStrategyFactory;
 use Illuminate\Support\Facades\DB;
-
+use App\Exceptions\InvalidBookingStatusException;
 class BookingService implements BookingServiceInterface
 {
     /**
@@ -55,9 +55,14 @@ class BookingService implements BookingServiceInterface
 
     public function updateBookingStatus(Booking $booking){
         DB::transaction(function () use ($booking) {
+            $this->checkStatus($booking);
             $booking->update(['status' => BookingStatus::REJECTED->value]);
 
             $booking->tickets()->delete();
         });
+    }
+    private function checkStatus(Booking $booking){
+        if($booking->status !== BookingStatus::IN_PROGRESS->value)
+            throw new InvalidBookingStatusException("Booking status must be 'in_progress' to update it.");
     }
 }
