@@ -58,7 +58,8 @@ class TripService implements TripServiceInterface{
     }
 
     public function getRemainingSeatsCount(Trip $trip){
-        $reservedSeats = Booking::where('trip_id', $trip->id)->sum('seats_count');
+        $reservedSeats = Booking::where('trip_id', $trip->id)->whereIn('status', [BookingStatus::COMPLETED->value,
+                                                                                    BookingStatus::IN_PROGRESS->value] )->sum('seats_count');
 
         return $trip->total_seats - $reservedSeats;
     }

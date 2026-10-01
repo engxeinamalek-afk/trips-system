@@ -43,7 +43,8 @@ class BookingService implements BookingServiceInterface
 
     private function validateAvailableSeats(Trip $trip, int $requestedSeats): void
     {
-        $reservedSeats = Booking::where('trip_id', $trip->id)->sum('seats_count');
+        $reservedSeats = Booking::where('trip_id', $trip->id)->whereIn('status', [BookingStatus::COMPLETED->value,
+                                                                                    BookingStatus::IN_PROGRESS->value] )->sum('seats_count');
 
         $availableSeats = $trip->total_seats - $reservedSeats;
 
