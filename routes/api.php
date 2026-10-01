@@ -8,18 +8,21 @@ use App\Http\Controllers\Api\DiscountController;
 use App\Http\Controllers\Api\TicketsController;
 use App\Http\Controllers\Api\TripController;
 
-Route::post('/store-booking',[BookingController::class, 'store']);
-Route::post('/store-trip',[TripController::class, 'store']);
+Route::post('/bookings', [BookingController::class, 'store']);
+Route::patch('/bookings/{booking}/reject', [BookingController::class, 'updateStatus']);
 
-Route::post('/store-city',[CityController::class, 'store']);
-Route::post('/store-discount',[DiscountController::class, 'store']);
+Route::post('/trips', [TripController::class, 'store']);
+Route::get('/trips/{trip}/remaining-seats', [TripController::class, 'remainingSeatsCount']);
+Route::patch('/trips/{trip}/deactivate', [TripController::class, 'updateStatus']);
 
-Route::post('/store-ticket',[TicketsController::class, 'store']);
-Route::post('/deactivate-trip/{trip}', [TripController::class , 'updateStatus']);
+Route::post('/cities', [CityController::class, 'store']);
+Route::patch('/cities/{city}/status', [CityController::class, 'updateStatus']);
 
-Route::post('/rejected-booking/{booking}' , [BookingController::class, 'updateStatus']);
-Route::get('/remaining-seats/{trip}', [TripController::class , 'remainingSeatsCount']);
+Route::post('/discounts', [DiscountController::class, 'store']);
+Route::patch('/discounts/{discount}/status', [DiscountController::class, 'updateStatus']);
 
-Route::post('/update-city-status/{city}', [CityController::class, 'updateStatus']);
-Route::post('/update-discount-status/{discount}', [DiscountController::class, 'updateStatus']);
+Route::post('/tickets', [TicketsController::class, 'store']);
+
+
+
 

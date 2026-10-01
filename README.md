@@ -11,12 +11,13 @@
 
 - `POST /api/store-booking`
 
-```{departure_city_id": 1,
-    "destination_city_id": 2,
-    "departure_time": "2026-10-15 10:00:00",
-    "total_seats": 40,
-    "price": 100,
-    "discount_id": 1}
+```{
+    "trip_id": 1,
+    "customer_name": "Zeina Malek",
+    "customer_phone": "099999",
+    "type": "normal",
+    "seats_count": 2
+}
 ```
 
 - `POST /api/rejected-booking/{booking}`
