@@ -11,8 +11,8 @@ use App\Models\Booking;
 use App\Models\Ticket;
 use App\Models\Trip;
 use Illuminate\Support\Facades\DB;
-
-class TicketService
+use App\Services\Contracts\TicketServiceInterface;
+class TicketService implements TicketServiceInterface
 {
     /**
      * Create a new class instance.
