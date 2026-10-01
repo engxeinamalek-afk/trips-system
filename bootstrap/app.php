@@ -7,7 +7,7 @@ use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -30,20 +30,32 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $exceptions->render(function (NotFoundHttpException $e, Request $request) {
             if ($request->is('api/*') || $request->wantsJson()) {
-                return ApiResponse::error(message: 'The requested resource was not found.', code: 404);
+                return ApiResponse::error(['global' => ['The requested resource was not found.']],
+                                                        'The requested resource was not found.',
+                                                        404);
             }
         });
 
 
         $exceptions->render(function (QueryException $e, Request $request) {
             if ($request->is('api/*') || $request->wantsJson()) {
-                return ApiResponse::error(message:'A database error occurred. Please try again later.' ,code:500 );
+                return ApiResponse::error(['database' => ['A database operation failed.']],
+                                          'A database error occurred. Please try again later.',
+                                          500 );
             }
         });
 
         $exceptions->render(function (Throwable $e, Request $request){
             if ($request->is('api/*') || $request->wantsJson()) {
-                return ApiResponse::error(message:'An unexpected server error occurred. Please try again later.' ,code:500);
+                if ($e instanceof HttpExceptionInterface) {
+                    $msg = $e->getMessage() ?: 'HTTP Error occurred.';
+                    return ApiResponse::error(['http' => [$msg]],
+                                                $msg  ,
+                                                $e->getStatusCode());
+                }
+                return ApiResponse::error(['server' => ['An unexpected internal error occurred.']],
+                                            'An unexpected server error occurred. Please try again later.' ,
+                                            500);
             }
         });
 

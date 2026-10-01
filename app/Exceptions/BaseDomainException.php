@@ -3,6 +3,7 @@ namespace App\Exceptions;
 
 use App\Exceptions\Contracts\AppExceptionInterface;
 use Exception;
+use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 
 abstract class BaseDomainException extends Exception
@@ -16,9 +17,12 @@ abstract class BaseDomainException extends Exception
 
     public function render(): JsonResponse
     {
-        return response()->json([
-            'status'  => 'error',
-            'message' => $this->getMessage(),
-        ], $this->getStatusCode());
+        return ApiResponse::error(
+            error: [
+                'domain' => [$this->getMessage()] 
+            ],
+            message: $this->getMessage(), 
+            code: $this->getStatusCode() 
+        );
     }
 }
